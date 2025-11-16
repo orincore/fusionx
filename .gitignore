@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Production
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# OS / Editor junk
+.DS_Store
+*.swp
+*.swo
+*.log
+.idea/
+.vscode/
+*.iml
+
+# Environment variables
+.env
+.env*.local
+
+# Coverage / testing
+coverage/
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+
+# Misc
+*.local
+*.tmp
+.tmp/
+.cache/
+.vercel/

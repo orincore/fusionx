@@ -1,0 +1,94 @@
+[
+  {
+    "id": "fx-neo-night-001",
+    "title": "FusionX Neon Night 2025",
+    "slug": "fusionx-neon-night-2025",
+    "date": "2025-12-20T18:30:00.000Z",
+    "time": "8:00 PM",
+    "venue": "GlitzFusion Arena, Mumbai",
+    "shortDescription": "A high-energy collision of music, motion graphics, and interactive light sculptures.",
+    "longDescription": "Step into an immersive neon universe where DJs, live performers, and generative visuals sync perfectly with the crowd. FusionX Neon Night is designed as a 360° sensory experience, combining cutting-edge lighting rigs, laser mapping, and interactive installations.",
+    "poster": "/events/neon-night-2025.jpg",
+    "gallery": [
+      "/events/neon-night-2025-1.jpg",
+      "/events/neon-night-2025-2.jpg",
+      "/events/neon-night-2025-3.jpg"
+    ],
+    "tags": ["music", "neon", "interactive", "festival"],
+    "isPast": false,
+    "attendeesCount": 1200
+  },
+  {
+    "id": "fx-immersive-theatre-002",
+    "title": "Immersive Storyscapes Live",
+    "slug": "immersive-storyscapes-live",
+    "date": "2026-01-15T15:30:00.000Z",
+    "time": "7:30 PM",
+    "venue": "Blackbox Studio, Bengaluru",
+    "shortDescription": "An experimental theatre showcase blending live performance, projection mapping, and spatial audio.",
+    "longDescription": "Immersive Storyscapes Live pushes the boundaries of theatre with reactive projections, binaural sound design, and actor-audience interplay. Each scene reconfigures the stage and light to pull viewers deeper into the narrative.",
+    "poster": "/events/storyscapes-live.jpg",
+    "gallery": [
+      "/events/storyscapes-live-1.jpg",
+      "/events/storyscapes-live-2.jpg"
+    ],
+    "tags": ["theatre", "projection", "audio", "immersive"],
+    "isPast": false,
+    "attendeesCount": 450
+  },
+  {
+    "id": "fx-pulse-fest-2024",
+    "title": "PulseFest 2024",
+    "slug": "pulsefest-2024",
+    "date": "2024-08-10T16:00:00.000Z",
+    "time": "6:00 PM",
+    "venue": "City Convention Grounds, Pune",
+    "shortDescription": "A multi-stage festival featuring EDM, hip-hop, and live VJ sets across three neon arenas.",
+    "longDescription": "PulseFest 2024 brought together 20+ artists, 3 immersive stages, and dynamic LED tunnel entries that reacted to crowd movement. The event set a new bar for synchronized lighting and crowd interaction.",
+    "poster": "/events/pulsefest-2024.jpg",
+    "gallery": [
+      "/events/pulsefest-2024-1.jpg",
+      "/events/pulsefest-2024-2.jpg",
+      "/events/pulsefest-2024-3.jpg"
+    ],
+    "tags": ["festival", "edm", "vj", "multi-stage"],
+    "isPast": true,
+    "attendeesCount": 3200
+  },
+  {
+    "id": "fx-campus-rush-2024",
+    "title": "Campus Rush Tour 2024",
+    "slug": "campus-rush-tour-2024",
+    "date": "2024-02-20T12:30:00.000Z",
+    "time": "5:00 PM",
+    "venue": "Multiple university campuses across India",
+    "shortDescription": "A travelling IP with live acts, influencer meetups, and pop-up neon zones.",
+    "longDescription": "Campus Rush Tour 2024 activated 12 campuses with performance stages, content creator lounges, and AR-powered photo ops. Each stop was tailored to the campus culture while preserving the core FusionX neon identity.",
+    "poster": "/events/campus-rush-2024.jpg",
+    "gallery": [
+      "/events/campus-rush-2024-1.jpg",
+      "/events/campus-rush-2024-2.jpg"
+    ],
+    "tags": ["campus", "ip", "tour"],
+    "isPast": true,
+    "attendeesCount": 7800
+  },
+  {
+    "id": "fx-brand-launch-aurora",
+    "title": "Aurora Brand Launch Experience",
+    "slug": "aurora-brand-launch-experience",
+    "date": "2023-11-05T14:30:00.000Z",
+    "time": "7:00 PM",
+    "venue": "Luxury Pavilion, Hyderabad",
+    "shortDescription": "A premium closed-door product reveal with kinetic light sculptures and live scoring.",
+    "longDescription": "Designed as an invite-only premiere, Aurora Brand Launch featured choreographed reveals, live scoring by a chamber ensemble, and kinetic neon structures that morphed with each chapter of the story.",
+    "poster": "/events/aurora-brand-launch.jpg",
+    "gallery": [
+      "/events/aurora-brand-launch-1.jpg",
+      "/events/aurora-brand-launch-2.jpg"
+    ],
+    "tags": ["brand", "launch", "premium"],
+    "isPast": true,
+    "attendeesCount": 600
+  }
+]
