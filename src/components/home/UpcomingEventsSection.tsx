@@ -118,6 +118,28 @@ export function UpcomingEventsSection({ events }: UpcomingEventsSectionProps) {
                       <p className="mt-2 line-clamp-2 text-xs text-zinc-300 md:text-sm">
                         {event.shortDescription}
                       </p>
+
+                      {/* Available Time Slots */}
+                      {event.dateSlots && event.dateSlots.length > 0 && (
+                        <div className="mt-2">
+                          <p className="text-[10px] font-medium text-zinc-400 mb-1">Available Times:</p>
+                          <div className="flex flex-wrap gap-1">
+                            {event.dateSlots[0]?.timeSlots?.slice(0, 3).map((ts, idx) => (
+                              <span
+                                key={idx}
+                                className="rounded-full bg-zinc-800/50 px-2 py-0.5 text-[9px] text-zinc-300"
+                              >
+                                {ts.startTime} – {ts.endTime}
+                              </span>
+                            ))}
+                            {event.dateSlots[0]?.timeSlots?.length > 3 && (
+                              <span className="text-[9px] text-zinc-400">
+                                +{event.dateSlots[0].timeSlots.length - 3} more
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )}
                       
                       {/* Pricing Information */}
                       {event.pricing && event.pricing.length > 0 && (

@@ -25,6 +25,18 @@ export interface Event {
   status?: string;
   bookingPercentage?: number;
   pricing?: EventPricing[];
+  dateSlots?: Array<{
+    date: string;
+    timeSlots: { startTime: string; endTime: string; isAvailable?: boolean }[];
+  }>;
+  location?: {
+    venue: string;
+    address: string;
+    city: string;
+    state: string;
+    pincode: string;
+    landmark?: string;
+  };
 }
 
 const GLITZFUSION_API_BASE = process.env.NEXT_PUBLIC_GLITZFUSION_API_URL || 'http://localhost:3001';

@@ -68,18 +68,67 @@ export default async function EventPage({ params }: EventPageProps) {
           <h1 className="mt-2 text-balance text-3xl font-semibold tracking-tight text-white md:text-4xl">
             {event.title}
           </h1>
-          {event.venue && (
+          
+          {/* Enhanced Location Display */}
+          {event.location ? (
+            <div className="mt-4 p-4 rounded-lg border border-emerald-400/30 bg-emerald-400/5">
+              <h3 className="text-sm font-medium text-emerald-300 mb-2">📍 Event Location</h3>
+              <div className="text-sm text-white">
+                <div className="font-semibold">{event.location.venue}</div>
+                <div className="text-zinc-300 mt-1">
+                  {event.location.address}
+                  {event.location.landmark && `, Near ${event.location.landmark}`}
+                </div>
+                <div className="text-zinc-300">
+                  {event.location.city}, {event.location.state} - {event.location.pincode}
+                </div>
+              </div>
+            </div>
+          ) : event.venue && (
             <p className="mt-2 text-sm text-zinc-400">{event.venue}</p>
           )}
-          <p className="mt-2 text-xs text-zinc-400">
-            {new Date(event.date).toLocaleDateString("en-IN", {
-              weekday: "short",
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-            })}
-            {event.time ? ` · ${event.time}` : ""}
-          </p>
+
+          {/* Date and Available Time Slots */}
+          <div className="mt-4">
+            <p className="text-xs text-zinc-400">
+              {new Date(event.date).toLocaleDateString("en-IN", {
+                weekday: "short",
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              })}
+              {event.time ? ` · ${event.time}` : ""}
+            </p>
+            
+            {/* Available Time Slots */}
+            {event.dateSlots && event.dateSlots.length > 0 && (
+              <div className="mt-3">
+                <p className="text-xs font-medium text-zinc-400 mb-2">Available Time Slots:</p>
+                <div className="flex flex-wrap gap-2">
+                  {event.dateSlots.map((dateSlot, dateIdx) => (
+                    <div key={dateIdx} className="space-y-1">
+                      <div className="text-[10px] text-emerald-300 font-medium">
+                        {new Date(dateSlot.date).toLocaleDateString("en-IN", {
+                          month: "short",
+                          day: "numeric"
+                        })}
+                      </div>
+                      <div className="flex flex-wrap gap-1">
+                        {dateSlot.timeSlots.map((ts, timeIdx) => (
+                          <span
+                            key={timeIdx}
+                            className="rounded-full bg-zinc-800/50 border border-zinc-700 px-2 py-1 text-[10px] text-zinc-300"
+                          >
+                            {ts.startTime} – {ts.endTime}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
           <div className="mt-6 space-y-4 text-sm text-zinc-200">
             {event.longDescription && (

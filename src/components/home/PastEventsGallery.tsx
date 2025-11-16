@@ -51,33 +51,65 @@ export function PastEventsGallery({ events }: PastEventsGalleryProps) {
               )}
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             </div>
-            <div className="px-3 pt-2">
-              <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-emerald-300">
-                {new Date(event.date).toLocaleDateString('en-IN', { 
-                  day: '2-digit', 
-                  month: 'short', 
-                  year: 'numeric' 
-                })} · {event.venue?.split(',')[0] || 'Event'}
+            <div className="p-3">
+              <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-emerald-300">
+                {new Date(event.date).toLocaleDateString("en-IN", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}
+                {event.time && ` · ${event.time}`}
               </p>
-              <p className="mt-1 line-clamp-2 text-xs font-semibold text-zinc-50">
+              <h3 className="mt-1 text-balance text-sm font-semibold text-zinc-50">
                 {event.title}
-              </p>
-              <div className="mt-1 flex items-center justify-between">
-                {event.attendeesCount && event.attendeesCount > 0 ? (
-                  <p className="text-[10px] text-zinc-400">
-                    {event.attendeesCount.toLocaleString()}+ attendees
-                  </p>
-                ) : (
-                  <p className="text-[10px] text-zinc-400">
-                    {event.status === 'completed' ? 'Completed Event' : 'Past Event'}
-                  </p>
-                )}
-                {event.tags && event.tags.length > 0 && (
-                  <p className="text-[9px] text-emerald-400">
-                    {event.tags[0]}
-                  </p>
-                )}
-              </div>
+              </h3>
+              
+              {/* Enhanced Location Display */}
+              {event.location ? (
+                <p className="mt-1 text-xs text-zinc-400">
+                  📍 {event.location.venue}, {event.location.city}
+                </p>
+              ) : event.venue && (
+                <p className="mt-1 text-xs text-zinc-400">
+                  📍 {event.venue}
+                </p>
+              )}
+
+              {/* Available Time Slots for Past Events */}
+              {event.dateSlots && event.dateSlots.length > 0 && (
+                <div className="mt-2">
+                  <div className="flex flex-wrap gap-1">
+                    {event.dateSlots[0]?.timeSlots?.slice(0, 2).map((ts, idx) => (
+                      <span
+                        key={idx}
+                        className="rounded-full bg-zinc-800/50 px-1.5 py-0.5 text-[8px] text-zinc-400"
+                      >
+                        {ts.startTime} – {ts.endTime}
+                      </span>
+                    ))}
+                    {event.dateSlots[0]?.timeSlots?.length > 2 && (
+                      <span className="text-[8px] text-zinc-500">
+                        +{event.dateSlots[0].timeSlots.length - 2}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {event.attendeesCount && event.attendeesCount > 0 ? (
+                <p className="mt-2 text-[10px] text-zinc-400">
+                  {event.attendeesCount.toLocaleString()}+ attendees
+                </p>
+              ) : (
+                <p className="mt-2 text-[10px] text-zinc-400">
+                  {event.status === 'completed' ? 'Completed Event' : 'Past Event'}
+                </p>
+              )}
+              {event.tags && event.tags.length > 0 && (
+                <p className="text-[9px] text-emerald-400">
+                  #{event.tags[0]}
+                </p>
+              )}
             </div>
           </Link>
         ))}

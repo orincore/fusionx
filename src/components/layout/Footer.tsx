@@ -16,24 +16,24 @@ export function Footer() {
             />
           </div>
           <p className="font-medium text-zinc-200">
-            FusionX by GlitzFusion
+            FusionX by GLITZFUSION
           </p>
         </div>
         <p className="mt-1 max-w-md text-xs text-zinc-500">
-          High-performance experiential IP for festivals, campus tours, and premium brand launches.
+          Powered by ORINCORE Technologies
         </p>
         <div className="flex flex-wrap items-center gap-4">
           <Link
-            href="mailto:hello@glitzfusion.in"
+            href="mailto:fusionx@glitzfusion.in"
             className="hover:text-emerald-300"
             aria-label="Email GlitzFusion"
           >
-            hello@glitzfusion.in
+            fusionx@glitzfusion.in
           </Link>
           <span className="hidden h-4 w-px bg-zinc-700 md:inline" aria-hidden="true" />
           <div className="flex items-center gap-3">
             <Link
-              href="https://instagram.com"
+              href="https://www.instagram.com/fusionx_india"
               className="hover:text-emerald-300"
               aria-label="GlitzFusion on Instagram"
             >

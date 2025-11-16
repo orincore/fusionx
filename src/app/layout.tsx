@@ -20,9 +20,10 @@ export const metadata: Metadata = {
     "FusionX by GlitzFusion is a high-performance events IP that blends neon visuals, immersive sound, and interactive experiences across festivals, launches, and campus tours.",
   metadataBase: new URL("https://fusionx.glitzfusion.in"),
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    // Use the FusionX black logo as the tab/icon image
+    icon: "/logo-black.png",
+    shortcut: "/logo-black.png",
+    apple: "/logo-black.png",
   },
   openGraph: {
     title: "FusionX  Immersive Neon Events by GlitzFusion",
