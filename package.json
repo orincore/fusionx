@@ -18,6 +18,7 @@
     "lucide-react": "^0.553.0",
     "multer": "^2.0.2",
     "next": "16.0.3",
+    "razorpay": "^2.9.6",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-hook-form": "^7.66.0",

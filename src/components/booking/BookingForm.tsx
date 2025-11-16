@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import { Plus, Calendar, Clock, Users } from "lucide-react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Plus, Calendar, Clock, Users, CheckCircle } from "lucide-react";
 import { MemberForm } from "@/components/booking/MemberForm";
+import { PaymentModal } from "@/components/booking/PaymentModal";
 
 interface Member {
   id: string;
@@ -36,6 +37,7 @@ interface Event {
 
 export function BookingForm() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const preselectedEventId = searchParams.get("eventId") ?? "";
 
   // Form state
@@ -46,10 +48,13 @@ export function BookingForm() {
   const [members, setMembers] = useState<Member[]>([
     { id: "1", name: "", email: "", phone: "" }
   ]);
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error" | "payment" | "completed">("idle");
   const [error, setError] = useState<string | null>(null);
   const [events, setEvents] = useState<Event[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [bookingData, setBookingData] = useState<any>(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentResult, setPaymentResult] = useState<any>(null);
 
   // Only allow booking for non-completed, non-past events
   const availableEvents = events.filter((event) => event.status !== "completed" && event.isPast !== true);
@@ -184,10 +189,31 @@ export function BookingForm() {
       }
 
       const result = await response.json();
-      setStatus("success");
       
-      // Show success message with booking code
-      setError(null);
+      // Check if booking was created and requires payment
+      // Since we've implemented payment flow, ALL successful bookings should go through payment
+      if (result.success && result.booking) {
+        // Store booking data and show payment modal
+        setBookingData({
+          bookingId: result.booking.id || result.booking._id,
+          bookingCode: result.booking.bookingCode || result.bookingCode,
+          eventTitle: result.booking.eventTitle || selectedEvent?.title,
+          totalAmount: result.booking.totalAmount || totalPrice,
+          memberCount: result.booking.memberCount || members.length,
+          primaryContact: {
+            name: members[0].name,
+            email: members[0].email,
+            phone: members[0].phone,
+          },
+        });
+        setStatus("payment");
+        setShowPaymentModal(true);
+        setError(null);
+      } else {
+        // This should rarely happen now - only if booking creation fails
+        setError(result.error || "Booking creation failed. Please try again.");
+        setStatus("error");
+      }
     } catch (bookingError) {
       console.error(bookingError);
       setError(
@@ -199,8 +225,39 @@ export function BookingForm() {
     }
   };
 
+  const handlePaymentSuccess = (result: any) => {
+    setPaymentResult(result);
+    setStatus("completed");
+    setShowPaymentModal(false);
+    setError(null);
+    
+    // Redirect to success page with booking details
+    const params = new URLSearchParams({
+      code: bookingData?.bookingCode || '',
+      paymentId: result.paymentId || '',
+    });
+    
+    // Small delay to show success state before redirect
+    setTimeout(() => {
+      router.push(`/booking-success?${params.toString()}`);
+    }, 2000);
+  };
+
+  const handlePaymentError = (error: string) => {
+    setError(error);
+    setStatus("error");
+    setShowPaymentModal(false);
+  };
+
+  const handleClosePaymentModal = () => {
+    setShowPaymentModal(false);
+    if (status === "payment") {
+      setStatus("idle");
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-8" noValidate>
+    <form onSubmit={handleSubmit} className="space-y-8" noValidate suppressHydrationWarning>
       {/* Event Selection */}
       <div className="rounded-xl border border-white/10 bg-black/40 p-6">
         <div className="flex items-center gap-2 mb-4">
@@ -222,7 +279,6 @@ export function BookingForm() {
                 setSelectedDate("");
                 setSelectedTime("");
                 setSelectedPricing("");
-                console.log('Event changed, reset all selections');
               }}
               className="w-full rounded-lg border border-white/10 bg-black/60 px-3 py-2 text-sm text-white outline-none ring-emerald-400/50 focus:border-emerald-400 focus:ring-2"
               required
@@ -302,7 +358,6 @@ export function BookingForm() {
                 id="time-select"
                 value={selectedTime}
                 onChange={(e) => {
-                  console.log('Time selected:', e.target.value);
                   setSelectedTime(e.target.value);
                 }}
                 className="w-full rounded-lg border border-white/10 bg-black/60 px-3 py-2 text-sm text-white outline-none ring-emerald-400/50 focus:border-emerald-400 focus:ring-2"
@@ -433,10 +488,28 @@ export function BookingForm() {
         </div>
       )}
 
-      {status === "success" && !error && (
+      {status === "completed" && !error && paymentResult && (
         <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-4">
-          <p className="text-sm text-emerald-300" role="status">
-            🎉 Booking confirmed! Check your email for booking details and confirmation code.
+          <div className="flex items-center gap-2 mb-2">
+            <CheckCircle className="h-5 w-5 text-emerald-400" />
+            <p className="text-sm font-semibold text-emerald-300">Payment Successful!</p>
+          </div>
+          <p className="text-sm text-emerald-300">
+            🎉 Booking confirmed! Your booking code is <span className="font-mono font-semibold">{bookingData?.bookingCode}</span>. 
+            Check your email for tickets and booking details.
+          </p>
+          {paymentResult.paymentId && (
+            <p className="text-xs text-emerald-400 mt-2">
+              Payment ID: {paymentResult.paymentId}
+            </p>
+          )}
+        </div>
+      )}
+
+      {status === "payment" && (
+        <div className="rounded-lg border border-blue-500/30 bg-blue-500/10 p-4">
+          <p className="text-sm text-blue-300" role="status">
+            📋 Booking created successfully! Please complete the payment to confirm your booking.
           </p>
         </div>
       )}
@@ -445,12 +518,65 @@ export function BookingForm() {
       <div className="flex justify-center">
         <button
           type="submit"
-          disabled={status === "loading" || !selectedEvent}
+          disabled={status === "loading" || status === "payment" || status === "completed" || !selectedEvent}
           className="inline-flex items-center justify-center rounded-full bg-emerald-400 px-8 py-3 text-sm font-semibold text-black shadow-[0_0_30px_rgba(34,197,94,0.65)] transition hover:bg-emerald-300 disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          {status === "loading" ? "Processing Booking..." : "Complete Booking"}
+          {status === "loading" ? "Creating Booking..." : 
+           status === "payment" ? "Payment Pending..." :
+           status === "completed" ? "Booking Completed" :
+           "Create Booking"}
         </button>
       </div>
+
+      {/* Payment Modal */}
+      {bookingData && (
+        <PaymentModal
+          isOpen={showPaymentModal}
+          onClose={handleClosePaymentModal}
+          bookingData={bookingData}
+          onPaymentSuccess={handlePaymentSuccess}
+          onPaymentError={handlePaymentError}
+        />
+      )}
+      
+      {/* Debug Info - Remove in production */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="fixed bottom-4 right-4 bg-black/80 text-white p-2 rounded text-xs space-y-2">
+          <div>Status: {status}</div>
+          <div>Show Modal: {showPaymentModal ? 'Yes' : 'No'}</div>
+          <div>Has Booking Data: {bookingData ? 'Yes' : 'No'}</div>
+          <button
+            onClick={() => {
+              // Test payment modal with dummy data
+              const testBookingData = {
+                bookingId: 'test-123',
+                bookingCode: 'TEST123',
+                eventTitle: 'Test Event',
+                totalAmount: 1000,
+                memberCount: 1,
+                primaryContact: {
+                  name: 'Test User',
+                  email: 'test@example.com',
+                  phone: '1234567890'
+                }
+              };
+              setBookingData(testBookingData);
+              setShowPaymentModal(true);
+            }}
+            className="bg-blue-500 text-white px-2 py-1 rounded text-xs"
+          >
+            Test Payment Modal
+          </button>
+          {bookingData && (
+            <button
+              onClick={() => setShowPaymentModal(true)}
+              className="bg-green-500 text-white px-2 py-1 rounded text-xs"
+            >
+              Show Existing Modal
+            </button>
+          )}
+        </div>
+      )}
     </form>
   );
 }
