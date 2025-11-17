@@ -5,6 +5,22 @@ import { useSearchParams } from "next/navigation";
 import { CheckCircle, Download, Mail, Calendar } from "lucide-react";
 import Link from "next/link";
 
+// Helper function to generate fallback member code
+function generateFallbackMemberCode(bookingCode: string, memberIndex: number): string {
+  if (memberIndex === 0) {
+    // Primary member gets the main booking code
+    return bookingCode;
+  } else {
+    // Other members get random codes
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 6; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  }
+}
+
 function BookingSuccessContent() {
   const searchParams = useSearchParams();
   const bookingCode = searchParams.get("code");
@@ -59,11 +75,35 @@ function BookingSuccessContent() {
         <div className="rounded-xl border border-white/10 bg-black/40 p-6 mb-6">
           <div className="space-y-4">
             <div className="text-center">
-              <p className="text-sm text-gray-400 mb-1">Booking Code</p>
+              <p className="text-sm text-gray-400 mb-1">Main Booking Code</p>
               <p className="text-2xl font-mono font-bold text-emerald-400">
                 {bookingCode}
               </p>
             </div>
+
+            {/* Individual Member Codes */}
+            {bookingDetails && bookingDetails.members && bookingDetails.members.length > 0 && (
+              <div className="border-t border-white/10 pt-4">
+                <p className="text-sm text-gray-400 mb-3 text-center">Individual Member Codes</p>
+                <div className="space-y-2">
+                  {bookingDetails.members.map((member: any, index: number) => (
+                    <div key={index} className="flex justify-between items-center bg-white/5 rounded-lg p-3">
+                      <div>
+                        <p className="text-white font-medium text-sm">{member.name}</p>
+                        {member.email && (
+                          <p className="text-gray-400 text-xs">{member.email}</p>
+                        )}
+                      </div>
+                      <div className="text-right">
+                        <p className="text-emerald-400 font-mono font-bold">
+                          {member.memberCode || (index === 0 ? bookingCode : generateFallbackMemberCode(bookingCode || 'UNKNOWN', index))}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {bookingDetails && (
               <>

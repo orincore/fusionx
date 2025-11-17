@@ -28,7 +28,7 @@ export default function BookPage() {
           Book FusionX Event
         </h1>
         <p className="mt-2 text-sm text-zinc-300">
-          Select your event, choose date & time, add members (max 5), and secure your booking
+          Select your event, verify your email, add member names (max 5), and secure your booking
         </p>
       </div>
 
