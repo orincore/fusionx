@@ -74,6 +74,9 @@ export function Footer() {
               <Link href="/privacy-policy" className="block text-zinc-400 hover:text-emerald-300 transition-colors text-sm">
                 Privacy Policy
               </Link>
+              <Link href="/refund-policy" className="block text-zinc-400 hover:text-emerald-300 transition-colors text-sm">
+                Refund Policy
+              </Link>
             </div>
           </div>
 
