@@ -25,6 +25,11 @@ export interface Event {
   status?: string;
   bookingPercentage?: number;
   pricing?: EventPricing[];
+  facilities?: Array<{
+    name: string;
+    description: string;
+    isIncluded: boolean;
+  }>;
   dateSlots?: Array<{
     date: string;
     timeSlots: { startTime: string; endTime: string; isAvailable?: boolean }[];
