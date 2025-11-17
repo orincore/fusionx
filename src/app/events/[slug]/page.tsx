@@ -330,12 +330,14 @@ export default async function EventPage({ params }: EventPageProps) {
         </aside>
       </div>
 
-      {/* Event Gallery and Highlights */}
-      <EventGallery 
-        gallery={event.gallery} 
-        highlights={event.highlights} 
-        eventTitle={event.title} 
-      />
+      {/* Event Highlights - Only for past/completed events */}
+      {(event.isPast === true || event.status === 'completed') && (
+        <EventGallery 
+          gallery={[]} 
+          highlights={event.highlights || []} 
+          eventTitle={event.title} 
+        />
+      )}
 
       <EventJsonLd event={event} />
     </div>

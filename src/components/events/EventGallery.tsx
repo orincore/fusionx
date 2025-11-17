@@ -55,7 +55,12 @@ export function EventGallery({ gallery = [], highlights = [], eventTitle }: Even
     <>
       <div className="mt-12">
         <div className="mb-6">
-          <h2 className="text-2xl font-semibold text-white mb-2">Event Gallery</h2>
+          <h2 className="text-2xl font-semibold text-white mb-2">
+            {highlights.length > 0 && gallery.length === 0 
+              ? "Event Highlights" 
+              : "Event Gallery"
+            }
+          </h2>
           <p className="text-sm text-zinc-400">
             {highlights.length > 0 && gallery.length > 0 
               ? `${gallery.length} gallery images and ${highlights.length} event highlights`
