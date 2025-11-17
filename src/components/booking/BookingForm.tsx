@@ -773,45 +773,6 @@ export function BookingForm() {
           onPaymentError={handlePaymentError}
         />
       )}
-      
-      {/* Debug Info - Remove in production */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="fixed bottom-4 right-4 bg-black/80 text-white p-2 rounded text-xs space-y-2">
-          <div>Status: {status}</div>
-          <div>Show Modal: {showPaymentModal ? 'Yes' : 'No'}</div>
-          <div>Has Booking Data: {bookingData ? 'Yes' : 'No'}</div>
-          <button
-            onClick={() => {
-              // Test payment modal with dummy data
-              const testBookingData = {
-                bookingId: 'test-123',
-                bookingCode: 'TEST123',
-                eventTitle: 'Test Event',
-                totalAmount: 1000,
-                memberCount: 1,
-                primaryContact: {
-                  name: 'Test User',
-                  email: 'test@example.com',
-                  phone: '1234567890'
-                }
-              };
-              setBookingData(testBookingData);
-              setShowPaymentModal(true);
-            }}
-            className="bg-blue-500 text-white px-2 py-1 rounded text-xs"
-          >
-            Test Payment Modal
-          </button>
-          {bookingData && (
-            <button
-              onClick={() => setShowPaymentModal(true)}
-              className="bg-green-500 text-white px-2 py-1 rounded text-xs"
-            >
-              Show Existing Modal
-            </button>
-          )}
-        </div>
-      )}
     </form>
   );
 }
